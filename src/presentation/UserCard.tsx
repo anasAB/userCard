@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingSpinner from '../Loader/LoadingSpinner';
-// import { getCity, getEmail, getFirstName, getLastName, getPlz, getStreetNo, getStreetName, getUserImg, getState } from '../Selectors/userSelectors';
-import { getFirstName, getState, getLastName } from '../Selectors/userSelectors';
+import { getCity, getEmail, getFirstName, getLastName, getPlz, getStreetNo, getStreetName, getUserImg, getState } from '../Selectors/userSelectors';
+// import { getFirstName, getState, getLastName } from '../Selectors/userSelectors';
 import { createUsers, editUserInfo } from '../store/User/UserSlicer';
 import Buttons from '../UIItems/Buttons';
 import fetchData from '../utils/fetchData';
@@ -14,12 +14,12 @@ const UserCard = () => {
     console.log('###FIRST NAme',userFirstName);
     
     const userLastName = useSelector(getLastName)
-    // const userEmail = useSelector(getEmail)
-    // const userCity = useSelector(getCity)
-    // const userStreetName = useSelector(getStreetName)
-    // const userStreetNumber = useSelector(getStreetNo)
-    // const userPlz = useSelector(getPlz)
-    // const userImage = useSelector(getUserImg)
+    const userEmail = useSelector(getEmail)
+    const userCity = useSelector(getCity)
+    const userStreetName = useSelector(getStreetName)
+    const userStreetNumber = useSelector(getStreetNo)
+    const userPlz = useSelector(getPlz)
+    const userImage = useSelector(getUserImg)
 
     const statex = useSelector(getState)
     console.log('##whole State',statex);
@@ -31,28 +31,27 @@ const UserCard = () => {
     const [state, setState] = useState({
         firstName: '',
         lastName: '',
-        // email: '',
-        // city: '',
-        // streetName: '',
-        // streetNum: 0,
-        // plz: 0,
-        // img: ''
+        email: '',
+        city: '',
+        streetName: '',
+        streetNum: 0,
+        plz: 0,
+        img: ''
       })
 
     useEffect(() => {
         setState({
             firstName: userFirstName,
             lastName: userLastName,
-            // email: userEmail,
-            // city: userCity, 
-            // streetName: userStreetName,
-            // streetNum: userStreetNumber,
-            // plz: userPlz,
-            // img: userFirstName,
+            email: userEmail,
+            city: userCity, 
+            streetName: userStreetName,
+            streetNum: userStreetNumber,
+            plz: userPlz,
+            img: userFirstName,
         })
      },
-     [userFirstName]
-    //  [userFirstName, userLastName, userEmail, userCity, userStreetName, userStreetNumber, userPlz ]
+     [userFirstName, userLastName, userEmail, userCity, userStreetName, userStreetNumber, userPlz ]
      )
      
 
@@ -62,23 +61,12 @@ const UserCard = () => {
         dispatch(editUserInfo({
             firstName:  state.firstName,
             lastName: state.lastName,
-            // email: state.email,
-            // city: state.city,
-            // streetName: state.streetName,
-            // streetNum: state.streetNum,
-            // plz: state.plz,
-            // img: state.img
+            email: state.email,
+            city: state.city,
+            streetName: state.streetName,
+            streetNum: state.streetNum,
+            plz: state.plz,
         }))
-        // props.submitFormData({
-        //     name: firstName,
-        //     lastName: lastNameField,
-        //     email: emailField,
-        //     city: cityField,
-        //     street: streetField,
-        //     zip: zipField
-        // })
-
-
     }
 
     
@@ -125,7 +113,7 @@ return (
         <form className="needs-validation" noValidate >
             <div className="container">
                 <div className="row">
-                    {/* <img src={userImage} alt='x'/> */}
+                    <img src={userImage} alt='x'/>
                     <div className="col-md-6 mb-3">
                         <label htmlFor="validationTooltip01">First name</label>
                         <input
@@ -153,7 +141,7 @@ return (
                             required
                         />
                     </div>
-                    {/* <div className="row">
+                    <div className="row">
                         <div className="col-md-6 mb-3">
                             <label htmlFor="validationTooltipUsername">Email</label>
                             <div className="input-group">
@@ -185,8 +173,8 @@ return (
                                 required
                             />
                         </div>
-                    </div> */}
-                    {/* <div className="row">
+                    </div>
+                    <div className="row">
                         <div className="col-md-6 mb-3">
                             <label htmlFor="validationTooltip04">Street</label>
                             <input
@@ -226,7 +214,7 @@ return (
                                 required
                             />
                         </div> 
-                     </div>  */}
+                     </div> 
                 </div>
             </div>
         </form>

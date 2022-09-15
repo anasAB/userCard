@@ -1,17 +1,17 @@
 import { IUser } from "../IState"
 
 interface IState {
-    user: IUser
+    user: IUser[]
 }
 
-export const getFirstName = (state: IState): string => state.user.firstName ? state.user.firstName : ''
-export const getLastName = (state: IState): string => state.user.lastName ? state.user.lastName : ''
-export const getEmail = (state: IState): string => state.user?.email ? state.user?.email: ''
-export const getStreetName = (state: IState): string => state.user.streetName ? state.user.streetName : ''
-export const getStreetNo = (state: IState): number => state.user.streetNum ? state.user.streetNum : 0
-export const getPlz = (state: IState): number => state.user.plz ? state.user.plz : 0
-export const getCity = (state: IState): string => state.user.city ? state.user.city: ''
-export const getUserImg = (state: IState): string => state.user.img ? state.user.img : ''
+export const getFirstName = (state: IState): any => state.user[0]?.firstName ? state.user[0]?.firstName : ''
+export const getLastName = (state: IState): string => state.user[0]?.lastName ? state.user[0]?.lastName : ''
+export const getEmail = (state: IState): string => state.user[0]?.email ? state.user[0]?.email: ''
+export const getStreetName = (state: IState): string => state.user[0]?.streetName ? state.user[0].streetName : ''
+export const getStreetNo = (state: IState): number => state.user[0]?.streetNum ? state.user[0].streetNum : 0
+export const getPlz = (state: IState): number => state.user[0]?.plz ? state.user[0].plz : 0
+export const getCity = (state: IState): string => state.user[0]?.city ? state.user[0].city: ''
+export const getUserImg = (state: IState): string => state.user[0]?.img ? state.user[0].img : ''
 
 
 export const getState = (state: any): any => state

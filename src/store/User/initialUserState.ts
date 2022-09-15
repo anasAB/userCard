@@ -1,7 +1,7 @@
-import { IUser } from "../../IState";
+import { IUser, Users } from "../../IState";
 
 
-export const initialUserState: IUser[] = []
+export const initialUserState: Users = []
 
 // {
 //     "gender": "",

@@ -74,6 +74,8 @@ interface IInfo {
     version: string
 }
 
+export type Users = IUser[]
+
 export interface IUser {
     firstName: string,
     lastName: string,
