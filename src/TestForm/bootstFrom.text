@@ -1,0 +1,91 @@
+return (
+        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Row className="mb-3">
+                <Form.Group as={Col} md="6" >
+                    <Form.Control
+                        required
+                        type="text"
+                        placeholder="First name"
+                        name='firstName'
+                        value={state.firstName}
+                        onChange={inputChangeHandler}
+                    />
+                </Form.Group>
+                <Form.Group as={Col} md="4" controlId="validationCustom02">
+                    <Form.Label>Last name</Form.Label>
+                    <Form.Control
+                        required
+                        type="text"
+                        placeholder="Last name"
+                        value={state.lastName}
+                        name='lastName'
+                        onChange={inputChangeHandler}
+                    />
+
+                </Form.Group>
+            </Row>
+            {/* <Row>
+                <Form.Group as={Col} md="12" >
+                    <Form.Control
+                        required
+                        type="email"
+                        placeholder="Email"
+                        name='email'
+                        value={state.email}
+                        onChange={inputChangeHandler}
+                        disabled={isReadOnly}
+                    />
+                </Form.Group>
+            </Row> */}
+            {/* <Row>
+                <Form.Group as={Col} md="8" >
+                    <Form.Control
+                        required
+                        type="text"
+                        placeholder="Street Name"
+                        name='streetName'
+                        value={state.streetName}
+                        onChange={inputChangeHandler}
+                        disabled={isReadOnly}
+                    />
+                </Form.Group>
+                <Form.Group as={Col} md="4" >
+                    <Form.Control
+                        required
+                        type="text"
+                        placeholder="House Number"
+                        name='streetNum'
+                        value={state.streetNum}
+                        onChange={inputChangeHandler}
+                        disabled={isReadOnly}
+                    />
+                </Form.Group>
+            </Row> */}
+            {/* <Row>
+            <Form.Group as={Col} md="5" >
+                    <Form.Control
+                        required
+                        type="text"
+                        placeholder="Plz"
+                        name='plz'
+                        value={state.plz}
+                        onChange={inputChangeHandler}
+                        disabled={isReadOnly}
+                    />
+                </Form.Group>
+                <Form.Group as={Col} md="7" >
+                    <Form.Control
+                        required
+                        type="text"
+                        placeholder="City"
+                        name='city'
+                        value={state.city}
+                        onChange={inputChangeHandler}
+                        disabled={isReadOnly}
+                    />
+                </Form.Group>
+            </Row> */}
+            {/* <Button type="submit">Submit form</Button> */}
+            <Buttons />
+        </Form>
+    );
