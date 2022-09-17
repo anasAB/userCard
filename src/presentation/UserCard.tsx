@@ -7,15 +7,11 @@ import fetchData from '../utils/fetchData';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import FormExample from '../TestForm/Formtwo';
-import Button from 'react-bootstrap/Button';
-import InputGroup from 'react-bootstrap/InputGroup';
-
-
+import Image from 'react-bootstrap/Image'
+import Buttons from './Buttons';
 
 
 const UserCard = () => {
-    // const { register, handleSubmit, formState: { errors } } = useForm();
 
     const dispatch = useDispatch()
     const userFirstName = useSelector(getFirstName)
@@ -67,7 +63,7 @@ const UserCard = () => {
     const changeEditorStatusTHandler = (): void => { setIsReadOnly(false) }
 
     //! Cancel changed input value
-    const cancelEidtInputHandler = () => {
+    const cancelEidtingHandler = () => {
         setIsReadOnly(true)
         setState({
             firstName: userFirstName,
@@ -81,20 +77,7 @@ const UserCard = () => {
         })
     }
 
-    const savingEidtedFormHandler = () => {
-        dispatch(editUserInfo({
-            firstName: state.firstName,
-            lastName: state.lastName,
-            email: state.email,
-            city: state.city,
-            streetName: state.streetName,
-            streetNum: state.streetNum,
-            plz: state.plz,
-        }))
-    }
-
-
-    const generateUserHandler = () => {
+    const generateUserHandler = (): void => {
         setFetching(true)
         fetchData()
             .then(() => {
@@ -104,7 +87,6 @@ const UserCard = () => {
             .catch(error => {
                 setErrorStatus(true)
                 console.warn(error.message)
-                return
             });
     }
 
@@ -115,17 +97,9 @@ const UserCard = () => {
             ...state,
             [event.target.name]: event.target.value
         });
-        const payload ={
-            name:event.target.name,
-            value: event.target.value
-        }
-        // dispatch(updateValues(payload))
-
     }
 
-    const createUserHandler = (): void => {
-        dispatch(createUsers({ ...state }))
-    }
+    const createUserHandler = (): void => { dispatch(createUsers({ ...state })) }
 
 
     if (isFetching) {
@@ -136,38 +110,10 @@ const UserCard = () => {
         return <h1>Something went wrong, Please Try Again....</h1>;
     }
 
-    const Buttons = () => {
-        return (
-            !isGenerated ?
-                <button className="btn btn-primary" type="submit" onClick={generateUserHandler}>Generate User</button>
-                :
-                isReadOnly ?
-                    <div className="form-row">
-                        <div className="form-group col-md-6">
-                            <Button className="btn btn-primary" onClick={changeEditorStatusTHandler}>Edit</Button>
-                        </div>
-                        <div className="form-group col-md-6">
-                            <Button className="btn btn-primary" type="submit" onClick={createUserHandler}>Create User</Button>
-                        </div>
-                    </div>
-                    :
-                    <div className="form-row">
-                        <div className="form-group col-md-6">
-                            <Button className="btn btn-primary" onClick={cancelEidtInputHandler}>Cancel</Button>
-                        </div>
-                        <div className="form-group col-md-6">
-                            <Button type="submit">Save</Button>
-                        </div>
-                    </div>
-        )
-    }
-
-
-    const handleSubmit = (event: any) => {
+    const submitHandler = (event: any) => {
         event.preventDefault();
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
-            console.log('###form. validty One ', form.checkValidity());
             event.stopPropagation();
         }
         if (form.checkValidity()) {
@@ -181,16 +127,16 @@ const UserCard = () => {
                 plz: state.plz,
             }))
         }
-        
         setValidated(true);
+        setIsReadOnly(true)
     };
-    
+
     console.log('##whole State', statex);
     return (
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form noValidate validated={validated} onSubmit={submitHandler}>
+            <Image src={state.img} fluid={true} rounded={true} roundedCircle={true} thumbnail={true} />
             <Row className="mb-3">
                 <Form.Group as={Col} md="4" >
-                    <Form.Label>First xxxme</Form.Label>
                     <Form.Control
                         required
                         type="text"
@@ -202,7 +148,6 @@ const UserCard = () => {
                     />
                 </Form.Group>
                 <Form.Group as={Col} md="4" controlId="validationCustom02">
-                    <Form.Label>Last name</Form.Label>
                     <Form.Control
                         required
                         type="text"
@@ -251,8 +196,8 @@ const UserCard = () => {
                     />
                 </Form.Group>
             </Row>
-             <Row>
-            <Form.Group as={Col} md="5" >
+            <Row>
+                <Form.Group as={Col} md="5" >
                     <Form.Control
                         required
                         type="text"
@@ -275,7 +220,14 @@ const UserCard = () => {
                     />
                 </Form.Group>
             </Row>
-            <Buttons></Buttons>
+            <Buttons 
+                isGenerated={isGenerated}
+                isReadOnly={isReadOnly}
+                generateUser={generateUserHandler}
+                changeEditor= {changeEditorStatusTHandler}
+                createUser={createUserHandler}
+                cancelEidtingHandler = {cancelEidtingHandler}
+            />
         </Form>
     );
 }

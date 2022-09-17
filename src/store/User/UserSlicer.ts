@@ -7,51 +7,31 @@ export const userSlice = createSlice({
     name: 'user',
     initialState: initialUserState,
     reducers: {
-        setUserState: (state: Users, action: {payload: IResult}) => {
-            const payload = action.payload 
-            // return { ...state, ...action.payload }            
-            // return { ...state, 
-            //     firstName: payload.name.first,
-            //     lastName: payload.name.last,
-            //     email: payload.email,
-            //     city: payload.location.city,
-            //     streetName: payload.location.street.name,
-            //     streetNum: payload.location.street.number,
-            //     plz: payload.location.postcode,
-            //     img: payload.picture.medium
-            // }   
-            
-            state.push({ firstName: payload.name.first,
-            lastName: payload.name.last,
-            email: payload.email,
-            city: payload.location.city,
-            streetName: payload.location.street.name,
-            streetNum: payload.location.street.number,
-            plz: payload.location.postcode,
-            img: payload.picture.medium,
-        })
+        setUserState: (state: Users, action: { payload: IResult }) => {
+            const payload = action.payload
+
+            state.push({
+                firstName: payload.name.first,
+                lastName: payload.name.last,
+                email: payload.email,
+                city: payload.location.city,
+                streetName: payload.location.street.name,
+                streetNum: payload.location.street.number,
+                plz: payload.location.postcode,
+                img: payload.picture.medium
+            })
         },
 
         editUserInfo: (state: any, action) => {
-            const newState: {[index: string]:IUser}= action.payload            
-            let key:any;
-            for(key in newState){                
-                state[0][key] = newState[key] 
+            const newState: { [index: string]: IUser } = action.payload
+            let key: any;
+            for (key in newState) {
+                state[0][key] = newState[key]
             }
         },
 
-        createUsers: (state:Users, action:{ payload: IUser}) => { state.push(action.payload) },
+        createUsers: (state: Users, action: { payload: IUser }) => { state.push(action.payload) },
 
-        // updateValues: (state:any,action:{ payload:any},) => {
-        //     console.log('###PAYLOAD',action.payload);
-        //     const {name,value} = action.payload
-        //     let key:any;
-        //     for(key in name){                
-        //         console.log('### newState[key]', newState[key] );
-                
-        //         // state[0][key] = newState[key] 
-        //     }
-        // }
     },
 })
 

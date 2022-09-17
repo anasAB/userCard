@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
-import UserHomePage from './presentation/UserHomePage';
+import UserCard from './presentation/UserCard';
 
 function App() {
   return (
     <div className="App">
       <h1>TOOL KIT</h1>
-      <UserHomePage />
+      <UserCard/>
     </div>
   );
 }
