@@ -8,6 +8,8 @@ export const userSlice = createSlice({
     initialState: initialUserState,
     reducers: {
         setUserState: (state: Users, action: { payload: IResult }) => {
+            console.log('### Set User Info');
+
             const payload = action.payload
 
             state.push({
@@ -23,16 +25,16 @@ export const userSlice = createSlice({
         },
 
         editUserInfo: (state: any, action) => {
-            const newState: { [index: string]: IUser } = action.payload
+            console.log('### Edit User Info');
+            const payLoad: { [index: string]: IUser } = action.payload
             let key: any;
-            for (key in newState) {
-                state[0][key] = newState[key]
+            for (key in payLoad) {
+                state[0][key] = payLoad[key]
             }
         },
 
         createUsers: (state: Users, action: { payload: IUser }) => { 
-            console.log('###PAYLOAD',action.payload);      
-            
+            console.log('### Create New User');
             state.push(action.payload) },
 
     },

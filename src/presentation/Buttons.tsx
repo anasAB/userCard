@@ -2,20 +2,21 @@ import Button from 'react-bootstrap/Button';
 
 
 export interface IButtons {
-    isGenerated?: boolean
-    isReadOnly?: boolean
+    isGenerated: boolean
+    isReadOnly: boolean
     formValidation: boolean
     generateUser: () => void
-    changeEditor?: () => void
-    createUser?: () => void
-    cancelEidtingHandler?: () => void
+    createUser: () => void
+    cancelEidtingHandler: () => void
+    setIsReadOnly: (status:boolean) => void
 }
 
 
 const Buttons = (props: IButtons) => {
-    const { isGenerated, isReadOnly, formValidation, generateUser, changeEditor, createUser, cancelEidtingHandler } = props
-    // console.log('### formValidation',formValidation);
+    const { isGenerated, isReadOnly, formValidation, generateUser, createUser, cancelEidtingHandler, setIsReadOnly } = props
     
+    const changeEditorStatusTHandler = () =>{ setIsReadOnly(false) }
+
     return (
         !isGenerated ?
             <Button className="btn btn-primary" onClick={generateUser}>Generate User</Button>
@@ -23,7 +24,7 @@ const Buttons = (props: IButtons) => {
             isReadOnly ?
                 <div className="form-row">
                     <div className="form-group col-md-6">
-                        <Button className="btn btn-primary" onClick={changeEditor}>Edit</Button>
+                        <Button className="btn btn-primary" onClick={changeEditorStatusTHandler}>Edit</Button>
                     </div>
                     <div className="form-group col-md-6">
                         <Button className="btn btn-primary" onClick={createUser}>Create User</Button>
@@ -35,7 +36,7 @@ const Buttons = (props: IButtons) => {
                         <Button className="btn btn-primary" onClick={cancelEidtingHandler}>Cancel</Button>
                     </div>
                     <div className="form-group col-md-6">
-                        <Button type="submit" >Save</Button>
+                        <Button type="submit" disabled={!formValidation}>Save</Button>
                     </div>
                 </div>
     )

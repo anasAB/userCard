@@ -27,9 +27,7 @@ const UserCard = () => {
     const [isReadOnly, setIsReadOnly] = useState(true);
     const [fetching, setFetching] = useState(false);
 
-
-
-    const [state, setState] = useState({
+    const [userInfoState, seUserInfoState] = useState({
         firstName: '',
         lastName: '',
         email: '',
@@ -40,13 +38,11 @@ const UserCard = () => {
         img: '',
     })
 
-    const { inputsValidation } = useFormValidation({ 'inputs': state });
-
-
+    const { inputsValidation, handleChange, handleSubmit } = useFormValidation({ 'inputsFields': userInfoState, seUserInfoState, setIsReadOnly });
 
     useEffect(() => {
-        setState({
-            firstName: userFirstName,
+        seUserInfoState({
+            firstName: userFirstName.trim(),
             lastName: userLastName,
             email: userEmail,
             city: userCity,
@@ -58,18 +54,15 @@ const UserCard = () => {
     }, [userFirstName, userLastName, userEmail, userCity, userStreetName, userStreetNumber, userPlz, userImage]
     )
 
-    //! set the input fileds to be editable  
-    const changeEditorStatusTHandler = (): void => { setIsReadOnly(false) }
-
     //! Cancel changed input value
-    const cancelEidtingHandler = () => {
+    const cancelEidtingHandler = (): void => {
         setIsReadOnly(true)
-        setState({
-            firstName: userFirstName,
-            lastName: userLastName,
-            email: userEmail,
-            city: userCity,
-            streetName: userStreetName,
+        seUserInfoState({
+            firstName: userFirstName.trim(),
+            lastName: userLastName.trim(),
+            email: userEmail.trim(),
+            city: userCity.trim(),
+            streetName: userStreetName.trim(),
             streetNum: userStreetNumber,
             plz: userPlz,
             img: userImage,
@@ -89,40 +82,8 @@ const UserCard = () => {
     }
 
 
-    const createUserHandler = (): void => { dispatch(createUsers({ ...state })) }
-
-    console.log('##whole State', statex);
-
-
-    const handleSubmit = (event: any) => {
-        if (event) event.preventDefault();
-
-        if (inputsValidation.formValid) {
-            dispatch(editUserInfo({
-                firstName: state.firstName,
-                lastName: state.lastName,
-                email: state.email,
-                city: state.city,
-                streetName: state.streetName,
-                streetNum: state.streetNum,
-                plz: state.plz,
-            }))
-            setIsReadOnly(true)
-        }
-    }
-
-    const handleChange = (event: any) => {
-        event.persist();
-        let name = event.target.name;
-        let val = event.target.value;
-        setState({
-            ...state,
-            [name]: val,
-        })
-
-    }
-
-
+    const createUserHandler = (): void => { dispatch(createUsers({ ...userInfoState })) }
+    
     const warrningClassn = 'wrong-Input'
     return (
 
@@ -130,37 +91,39 @@ const UserCard = () => {
             <form onSubmit={handleSubmit}>
 
                 {/*//! First Name */}
-                <input type="text" className={!inputsValidation.firstName ? `${warrningClassn} form-control` : 'form-control'} name="firstName"
+                <input type="text" 
+                    className={`${!inputsValidation.firstName && warrningClassn} form-control`} name="firstName"
                     placeholder="First Name"
-                    value={state.firstName}
+                    value={userInfoState.firstName}
                     onChange={handleChange}
                     disabled={isReadOnly}
 
                 />
                 {/*//! lastName */}
-                <input type="text" className={!inputsValidation.lastName ? `${warrningClassn} form-control` : 'form-control'} name="lastName"
+                <input type="text" 
+                    className={`${!inputsValidation.lastName && warrningClassn} form-control`} name="lastName"
                     placeholder="Last Name"
-                    value={state.lastName}
+                    value={userInfoState.lastName}
                     onChange={handleChange}
                     disabled={isReadOnly}
                 />
 
                 {/*//! Email */}
                 <input type="email"
-                    className={!inputsValidation.email ? `${warrningClassn} form-control` : 'form-control'}
+                    className={`${!inputsValidation.email && warrningClassn} form-control`}
                     name="email"
                     placeholder="email"
-                    value={state.email}
+                    value={userInfoState.email}
                     onChange={handleChange}
                     disabled={isReadOnly}
                 />
 
                 {/*//! Street Name */}
                 <input type="text" 
-                    className={!inputsValidation.streetName ? `${warrningClassn} form-control` : 'form-control'}
+                    className={`${!inputsValidation.streetName && warrningClassn} form-control`}
                     name="streetName"
                     placeholder="Street Name"
-                    value={state.streetName}
+                    value={userInfoState.streetName}
                     onChange={handleChange}
                     disabled={isReadOnly}
                 />
@@ -168,9 +131,19 @@ const UserCard = () => {
                 {/*//! plz */}
                 <input type="text"
                     name='plz'
-                    className={!inputsValidation.plz ? `${warrningClassn} form-control` : 'form-control'}
+                    className={`${!inputsValidation.plz && warrningClassn} form-control`}
                     placeholder="plz"
-                    value={state.plz}
+                    value={userInfoState.plz}
+                    onChange={handleChange}
+                    disabled={isReadOnly}
+                />
+
+                {/*//! city */}
+                <input type="text"
+                    name='city'
+                    className={`${!inputsValidation.city && warrningClassn} form-control`}
+                    placeholder="City"
+                    value={userInfoState.city}
                     onChange={handleChange}
                     disabled={isReadOnly}
                 />
@@ -182,10 +155,10 @@ const UserCard = () => {
                     isGenerated={isGenerated}
                     isReadOnly={isReadOnly}
                     generateUser={generateUserHandler}
-                    changeEditor={changeEditorStatusTHandler}
                     createUser={createUserHandler}
                     cancelEidtingHandler={cancelEidtingHandler}
                     formValidation = {inputsValidation.formValid}
+                    setIsReadOnly={setIsReadOnly}
                 />
             </form>
 
