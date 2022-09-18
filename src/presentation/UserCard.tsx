@@ -3,13 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import LoadingSpinner from '../Loader/LoadingSpinner';
 import { getCity, getEmail, getFirstName, getLastName, getPlz, getStreetNo, getStreetName, getUserImg, getState } from '../Selectors/userSelectors';
 import { createUsers, editUserInfo } from '../store/User/UserSlicer';
+import useFormValidation from '../TestForm/useFormValidation';
 import fetchData from '../utils/fetchData';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import Image from 'react-bootstrap/Image'
 import Buttons from './Buttons';
-
+import './userCard.css'
 
 const UserCard = () => {
 
@@ -27,11 +24,9 @@ const UserCard = () => {
 
 
     const [isGenerated, setIsGenerated] = useState(false);
-    const [isFetching, setFetching] = useState(false);
-    const [errorStatus, setErrorStatus] = useState(false);
     const [isReadOnly, setIsReadOnly] = useState(true);
+    const [fetching, setFetching] = useState(false);
 
-    const [validated, setValidated] = useState(false);
 
 
     const [state, setState] = useState({
@@ -42,8 +37,12 @@ const UserCard = () => {
         streetName: '',
         streetNum: 0,
         plz: 0,
-        img: ''
+        img: '',
     })
+
+    const { inputsValidation } = useFormValidation({ 'inputs': state });
+
+
 
     useEffect(() => {
         setState({
@@ -85,38 +84,20 @@ const UserCard = () => {
                 setIsGenerated(true)
             })
             .catch(error => {
-                setErrorStatus(true)
                 console.warn(error.message)
             });
     }
 
 
-    const inputChangeHandler = (event: any): void => {
-        event.persist();
-        setState({
-            ...state,
-            [event.target.name]: event.target.value
-        });
-    }
-
     const createUserHandler = (): void => { dispatch(createUsers({ ...state })) }
 
+    console.log('##whole State', statex);
 
-    if (isFetching) {
-        return <LoadingSpinner />;
-    }
 
-    if (errorStatus) {
-        return <h1>Something went wrong, Please Try Again....</h1>;
-    }
+    const handleSubmit = (event: any) => {
+        if (event) event.preventDefault();
 
-    const submitHandler = (event: any) => {
-        event.preventDefault();
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.stopPropagation();
-        }
-        if (form.checkValidity()) {
+        if (inputsValidation.formValid) {
             dispatch(editUserInfo({
                 firstName: state.firstName,
                 lastName: state.lastName,
@@ -126,110 +107,90 @@ const UserCard = () => {
                 streetNum: state.streetNum,
                 plz: state.plz,
             }))
+            setIsReadOnly(true)
         }
-        setValidated(true);
-        setIsReadOnly(true)
-    };
+    }
 
-    console.log('##whole State', statex);
+    const handleChange = (event: any) => {
+        event.persist();
+        let name = event.target.name;
+        let val = event.target.value;
+        setState({
+            ...state,
+            [name]: val,
+        })
+
+    }
+
+
+    const warrningClassn = 'wrong-Input'
     return (
-        <Form noValidate validated={validated} onSubmit={submitHandler}>
-            <Image src={state.img} fluid={true} rounded={true} roundedCircle={true} thumbnail={true} />
-            <Row className="mb-3">
-                <Form.Group as={Col} md="4" >
-                    <Form.Control
-                        required
-                        type="text"
-                        placeholder="First name"
-                        name='firstName'
-                        value={state.firstName}
-                        onChange={inputChangeHandler}
-                        disabled={isReadOnly}
-                    />
-                </Form.Group>
-                <Form.Group as={Col} md="4" controlId="validationCustom02">
-                    <Form.Control
-                        required
-                        type="text"
-                        placeholder="Last name"
-                        name='lastName'
-                        value={state.lastName}
-                        onChange={inputChangeHandler}
-                        disabled={isReadOnly}
-                    />
-                </Form.Group>
-            </Row>
-            <Row>
-                <Form.Group as={Col} md="12" >
-                    <Form.Control
-                        required
-                        type="email"
-                        placeholder="Email"
-                        name='email'
-                        value={state.email}
-                        onChange={inputChangeHandler}
-                        disabled={isReadOnly}
-                    />
-                </Form.Group>
-            </Row>
-            <Row>
-                <Form.Group as={Col} md="8" >
-                    <Form.Control
-                        required
-                        type="text"
-                        placeholder="Street Name"
-                        name='streetName'
-                        value={state.streetName}
-                        onChange={inputChangeHandler}
-                        disabled={isReadOnly}
-                    />
-                </Form.Group>
-                <Form.Group as={Col} md="4" >
-                    <Form.Control
-                        required
-                        type="text"
-                        placeholder="House Number"
-                        name='streetNum'
-                        value={state.streetNum}
-                        onChange={inputChangeHandler}
-                        disabled={isReadOnly}
-                    />
-                </Form.Group>
-            </Row>
-            <Row>
-                <Form.Group as={Col} md="5" >
-                    <Form.Control
-                        required
-                        type="text"
-                        placeholder="Plz"
-                        name='plz'
-                        value={state.plz}
-                        onChange={inputChangeHandler}
-                        disabled={isReadOnly}
-                    />
-                </Form.Group>
-                <Form.Group as={Col} md="7" >
-                    <Form.Control
-                        required
-                        type="text"
-                        placeholder="City"
-                        name='city'
-                        value={state.city}
-                        onChange={inputChangeHandler}
-                        disabled={isReadOnly}
-                    />
-                </Form.Group>
-            </Row>
-            <Buttons 
-                isGenerated={isGenerated}
-                isReadOnly={isReadOnly}
-                generateUser={generateUserHandler}
-                changeEditor= {changeEditorStatusTHandler}
-                createUser={createUserHandler}
-                cancelEidtingHandler = {cancelEidtingHandler}
-            />
-        </Form>
-    );
+
+        <div className="App">
+            <form onSubmit={handleSubmit}>
+
+                {/*//! First Name */}
+                <input type="text" className={!inputsValidation.firstName ? `${warrningClassn} form-control` : 'form-control'} name="firstName"
+                    placeholder="First Name"
+                    value={state.firstName}
+                    onChange={handleChange}
+                    disabled={isReadOnly}
+
+                />
+                {/*//! lastName */}
+                <input type="text" className={!inputsValidation.lastName ? `${warrningClassn} form-control` : 'form-control'} name="lastName"
+                    placeholder="Last Name"
+                    value={state.lastName}
+                    onChange={handleChange}
+                    disabled={isReadOnly}
+                />
+
+                {/*//! Email */}
+                <input type="email"
+                    className={!inputsValidation.email ? `${warrningClassn} form-control` : 'form-control'}
+                    name="email"
+                    placeholder="email"
+                    value={state.email}
+                    onChange={handleChange}
+                    disabled={isReadOnly}
+                />
+
+                {/*//! Street Name */}
+                <input type="text" 
+                    className={!inputsValidation.streetName ? `${warrningClassn} form-control` : 'form-control'}
+                    name="streetName"
+                    placeholder="Street Name"
+                    value={state.streetName}
+                    onChange={handleChange}
+                    disabled={isReadOnly}
+                />
+
+                {/*//! plz */}
+                <input type="text"
+                    name='plz'
+                    className={!inputsValidation.plz ? `${warrningClassn} form-control` : 'form-control'}
+                    placeholder="plz"
+                    value={state.plz}
+                    onChange={handleChange}
+                    disabled={isReadOnly}
+                />
+
+                {!inputsValidation.formValid && isGenerated ? <span>Something Wrong</span> : ''}
+
+
+                 <Buttons
+                    isGenerated={isGenerated}
+                    isReadOnly={isReadOnly}
+                    generateUser={generateUserHandler}
+                    changeEditor={changeEditorStatusTHandler}
+                    createUser={createUserHandler}
+                    cancelEidtingHandler={cancelEidtingHandler}
+                    formValidation = {inputsValidation.formValid}
+                />
+            </form>
+
+        </div>
+    )
 }
 
 

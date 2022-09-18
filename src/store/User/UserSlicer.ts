@@ -18,7 +18,7 @@ export const userSlice = createSlice({
                 streetName: payload.location.street.name,
                 streetNum: payload.location.street.number,
                 plz: payload.location.postcode,
-                img: payload.picture.medium
+                img: payload.picture.large
             })
         },
 
@@ -30,7 +30,10 @@ export const userSlice = createSlice({
             }
         },
 
-        createUsers: (state: Users, action: { payload: IUser }) => { state.push(action.payload) },
+        createUsers: (state: Users, action: { payload: IUser }) => { 
+            console.log('###PAYLOAD',action.payload);      
+            
+            state.push(action.payload) },
 
     },
 })

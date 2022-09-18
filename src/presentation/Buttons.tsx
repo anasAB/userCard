@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 export interface IButtons {
     isGenerated?: boolean
     isReadOnly?: boolean
+    formValidation: boolean
     generateUser: () => void
     changeEditor?: () => void
     createUser?: () => void
@@ -11,11 +12,13 @@ export interface IButtons {
 }
 
 
-const Buttons = (props:IButtons) => {
-    const {isGenerated, isReadOnly, generateUser, changeEditor, createUser, cancelEidtingHandler} = props
+const Buttons = (props: IButtons) => {
+    const { isGenerated, isReadOnly, formValidation, generateUser, changeEditor, createUser, cancelEidtingHandler } = props
+    // console.log('### formValidation',formValidation);
+    
     return (
         !isGenerated ?
-            <Button className="btn btn-primary" type="submit" onClick={generateUser}>Generate User</Button>
+            <Button className="btn btn-primary" onClick={generateUser}>Generate User</Button>
             :
             isReadOnly ?
                 <div className="form-row">
@@ -23,7 +26,7 @@ const Buttons = (props:IButtons) => {
                         <Button className="btn btn-primary" onClick={changeEditor}>Edit</Button>
                     </div>
                     <div className="form-group col-md-6">
-                        <Button className="btn btn-primary" type="submit" onClick={createUser}>Create User</Button>
+                        <Button className="btn btn-primary" onClick={createUser}>Create User</Button>
                     </div>
                 </div>
                 :
@@ -32,7 +35,7 @@ const Buttons = (props:IButtons) => {
                         <Button className="btn btn-primary" onClick={cancelEidtingHandler}>Cancel</Button>
                     </div>
                     <div className="form-group col-md-6">
-                        <Button type="submit">Save</Button>
+                        <Button type="submit" >Save</Button>
                     </div>
                 </div>
     )
