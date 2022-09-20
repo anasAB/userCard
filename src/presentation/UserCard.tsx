@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingSpinner from '../Loader/LoadingSpinner';
 import { getCity, getEmail, getFirstName, getLastName, getPlz, getStreetNo, getStreetName, getUserImg, getState } from '../Selectors/userSelectors';
-import { createUsers, editUserInfo } from '../store/User/UserSlicer';
-import useFormValidation from '../TestForm/useFormValidation';
+import { createUsers } from '../store/User/UserSlicer';
+import useFormValidation from '../utils/useForm';
 import fetchData from '../utils/fetchData';
 import Buttons from './Buttons';
 import './userCard.css'

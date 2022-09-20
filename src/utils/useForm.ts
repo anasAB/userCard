@@ -1,15 +1,10 @@
 import { useEffect, useState } from 'react'
-import { IUser } from '../IState'
+import { IForm, IUser } from '../IState'
 import { editUserInfo } from '../store/User/UserSlicer';
 import { useDispatch } from 'react-redux';
 
-export interface IForm {
-    inputsFields: IUser,
-    seUserInfoState: (inputsFields: IUser) => void,
-    setIsReadOnly: (readOnly:boolean) => void,
-}
 
-const useFormValidation = (props: IForm) => {
+const useForm = (props: IForm) => {
 
     const { inputsFields, seUserInfoState, setIsReadOnly } = props
     const [formValid, setFormValid] = useState(false);
@@ -96,4 +91,4 @@ const useFormValidation = (props: IForm) => {
     }
 }
 
-export default useFormValidation
+export default useForm

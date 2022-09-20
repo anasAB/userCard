@@ -86,3 +86,9 @@ export interface IUser {
     plz: number,
     img: string
 }
+
+export interface IForm {
+    inputsFields: IUser,
+    seUserInfoState: (inputsFields: IUser) => void,
+    setIsReadOnly: (readOnly:boolean) => void,
+}
