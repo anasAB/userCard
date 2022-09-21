@@ -32,8 +32,8 @@ const useForm = (props: IForm) => {
 
     const handleChange = (event: any) => {
         event.persist();
-        let name = event.target.name;
-        let val = event.target.value;
+        const name = event.target.name;
+        const val = event.target.value;
         seUserInfoState({
             ...inputsFields,
             [name]: val,
@@ -41,20 +41,17 @@ const useForm = (props: IForm) => {
     }
 
     const handleSubmit = (event: any) => {
-        if (event) event.preventDefault();
-
-        if (formValid) {
-            dispatch(editUserInfo({
-                firstName: inputsFields.firstName.trim(),
-                lastName: inputsFields.lastName.trim(),
-                email: inputsFields.email.trim(),
-                city: inputsFields.city.trim(),
-                streetName: inputsFields.streetName.trim(),
-                streetNum: inputsFields.streetNum,
-                plz: inputsFields.plz,
-            }))
-            setIsReadOnly(true)
-        }
+        event.preventDefault();
+        dispatch(editUserInfo({
+            firstName: inputsFields.firstName.trim(),
+            lastName: inputsFields.lastName.trim(),
+            email: inputsFields.email.trim(),
+            city: inputsFields.city.trim(),
+            streetName: inputsFields.streetName.trim(),
+            streetNum: inputsFields.streetNum,
+            plz: inputsFields.plz,
+        }))
+        setIsReadOnly(true)        
     }
 
     //! inputs Validation

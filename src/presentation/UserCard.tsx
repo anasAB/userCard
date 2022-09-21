@@ -6,7 +6,8 @@ import { createUsers } from '../store/User/UserSlicer';
 import useFormValidation from '../utils/useForm';
 import fetchData from '../utils/fetchData';
 import Buttons from './Buttons';
-import './userCard.css'
+import '../style.css'
+import Img from '../assets/placeholder.jpg'
 
 const UserCard = () => {
 
@@ -81,87 +82,128 @@ const UserCard = () => {
             });
     }
 
-
     const createUserHandler = (): void => { dispatch(createUsers({ ...userInfoState })) }
+    console.log('### WHOLE STATE', statex);
     
-    const warrningClassn = 'wrong-Input'
     return (
 
-        <div className="App">
-            <form onSubmit={handleSubmit}>
+        <div className="wrapper">
 
-                {/*//! First Name */}
-                <input type="text" 
-                    className={`${!inputsValidation.firstName && warrningClassn} form-control`} name="firstName"
-                    placeholder="First Name"
-                    value={userInfoState.firstName}
-                    onChange={handleChange}
-                    disabled={isReadOnly}
+            <figure className="picture">
+                <img src={userInfoState.img ? userInfoState.img: Img } alt={userInfoState.img}/>
+            </figure>
 
-                />
-                {/*//! lastName */}
-                <input type="text" 
-                    className={`${!inputsValidation.lastName && warrningClassn} form-control`} name="lastName"
-                    placeholder="Last Name"
-                    value={userInfoState.lastName}
-                    onChange={handleChange}
-                    disabled={isReadOnly}
-                />
+            <form className={isReadOnly ? 'default' : 'editable'} onSubmit={handleSubmit}>
+                <div className='row'>
 
-                {/*//! Email */}
-                <input type="email"
-                    className={`${!inputsValidation.email && warrningClassn} form-control`}
-                    name="email"
-                    placeholder="email"
-                    value={userInfoState.email}
-                    onChange={handleChange}
-                    disabled={isReadOnly}
-                />
+                    {/*//! First Name */}
+                    <input type="text"
+                        className='grid-6-12'
+                        name="firstName"
+                        placeholder="First Name"
+                        value={userInfoState.firstName}
+                        onChange={handleChange}
+                        disabled={isReadOnly}
+                        pattern="^[\s\d\p{L}]+"
+                        inputMode='text'
+                        required
+                    />
 
-                {/*//! Street Name */}
-                <input type="text" 
-                    className={`${!inputsValidation.streetName && warrningClassn} form-control`}
-                    name="streetName"
-                    placeholder="Street Name"
-                    value={userInfoState.streetName}
-                    onChange={handleChange}
-                    disabled={isReadOnly}
-                />
+                    {/*//! lastName */}
+                    <input type="text"
+                        className='grid-6-1'
+                        name="lastName"
+                        placeholder="Last Name"
+                        value={userInfoState.lastName}
+                        onChange={handleChange}
+                        disabled={isReadOnly}
+                        pattern="^[\s\d\p{L}]+"
+                        inputMode='text'
+                        required
+                    />
+                </div>
 
-                {/*//! plz */}
-                <input type="text"
-                    name='plz'
-                    className={`${!inputsValidation.plz && warrningClassn} form-control`}
-                    placeholder="plz"
-                    value={userInfoState.plz}
-                    onChange={handleChange}
-                    disabled={isReadOnly}
-                />
+                <div className='row'>
+                    {/*//! Email */}
+                    <input type="email"
+                        className='grid-12-12'
+                        name="email"
+                        placeholder="email"
+                        value={userInfoState.email}
+                        onChange={handleChange}
+                        disabled={isReadOnly}
+                        required
+                    />
+                </div>
 
-                {/*//! city */}
-                <input type="text"
-                    name='city'
-                    className={`${!inputsValidation.city && warrningClassn} form-control`}
-                    placeholder="City"
-                    value={userInfoState.city}
-                    onChange={handleChange}
-                    disabled={isReadOnly}
-                />
+                {/*//! street Name */}
+                <div className='row'>
+                    <input type="text"
+                        className='grid-9-12'
+                        name="streetName"
+                        placeholder="Strasse"
+                        value={userInfoState.streetName}
+                        onChange={handleChange}
+                        disabled={isReadOnly}
+                        pattern="^[\s\d\p{L}]+"
+                        inputMode='text'
+                        required
+                    />
+
+                    {/*//! House Number */}
+                    <input type="text"
+                        className='grid-3-12'
+                        name="streetNum"
+                        placeholder="Hsnr."
+                        value={userInfoState.streetNum}
+                        onChange={handleChange}
+                        disabled={isReadOnly}
+                        pattern="[0-9]+"
+                        inputMode="decimal"
+                        required
+                    />
+                </div>
+
+                <div className='row'>
+                    {/*//! Plz */}
+                    <input type="text"
+                        className='grid-5-12'
+                        name="plz"
+                        placeholder="PLZ"
+                        value={userInfoState.plz}
+                        onChange={handleChange}
+                        disabled={isReadOnly}
+                        pattern=".{3,8}"
+                        inputMode='text'
+                        required
+                    />
+
+                    {/*//! City */}
+                    <input type="text"
+                        className='grid-7-12'
+                        name="city"
+                        placeholder="Ort."
+                        value={userInfoState.city}
+                        onChange={handleChange}
+                        disabled={isReadOnly}
+                        pattern="^[\s\d\p{L}]+"
+                        inputMode='text'
+                        required
+                    />
+                </div>
 
                 {!inputsValidation.formValid && isGenerated ? <span>Something Wrong</span> : ''}
 
-
-                 <Buttons
+                <Buttons
                     isGenerated={isGenerated}
                     isReadOnly={isReadOnly}
                     generateUser={generateUserHandler}
                     createUser={createUserHandler}
                     cancelEidtingHandler={cancelEidtingHandler}
-                    formValidation = {inputsValidation.formValid}
+                    formValidation={inputsValidation.formValid}
                     setIsReadOnly={setIsReadOnly}
                 />
             </form>
-
         </div>
     )
 }

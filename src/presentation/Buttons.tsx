@@ -8,36 +8,30 @@ export interface IButtons {
     generateUser: () => void
     createUser: () => void
     cancelEidtingHandler: () => void
-    setIsReadOnly: (status:boolean) => void
+    setIsReadOnly: (status: boolean) => void
 }
 
 
 const Buttons = (props: IButtons) => {
-    const { isGenerated, isReadOnly, formValidation, generateUser, createUser, cancelEidtingHandler, setIsReadOnly } = props
-    
-    const changeEditorStatusTHandler = () =>{ setIsReadOnly(false) }
+    const { isGenerated, formValidation, isReadOnly, generateUser, createUser, cancelEidtingHandler, setIsReadOnly } = props
+
+    const changeEditorStatusTHandler = () => { setIsReadOnly(false) }
 
     return (
         !isGenerated ?
-            <Button className="btn btn-primary" onClick={generateUser}>Generate User</Button>
+            <div className="row">
+                <Button onClick={generateUser}>User generieren</Button>
+            </div>
             :
             isReadOnly ?
-                <div className="form-row">
-                    <div className="form-group col-md-6">
-                        <Button className="btn btn-primary" onClick={changeEditorStatusTHandler}>Edit</Button>
-                    </div>
-                    <div className="form-group col-md-6">
-                        <Button className="btn btn-primary" onClick={createUser}>Create User</Button>
-                    </div>
+                <div className='row'>
+                        <Button className='active grid-6-12'  onClick={changeEditorStatusTHandler}>Bearbeiten</Button>
+                        <Button className='active grid-6-12' onClick={createUser}>User anlegen</Button>
                 </div>
                 :
-                <div className="form-row">
-                    <div className="form-group col-md-6">
-                        <Button className="btn btn-primary" onClick={cancelEidtingHandler}>Cancel</Button>
-                    </div>
-                    <div className="form-group col-md-6">
-                        <Button type="submit" disabled={!formValidation}>Save</Button>
-                    </div>
+                <div className='row' >
+                        <Button className="active outline grid-6-12" onClick={cancelEidtingHandler}>Abbrechen</Button>
+                        <Button className={`${formValidation ? 'active' : 'inactive'} outline grid-6-12`} type="submit" disabled={!formValidation} >Speichen</Button>
                 </div>
     )
 }
