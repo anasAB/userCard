@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingSpinner from '../Loader/LoadingSpinner';
-import { getCity, getEmail, getFirstName, getLastName, getPlz, getStreetNo, getStreetName, getUserImg, getState } from '../Selectors/userSelectors';
+import WarningPresentation from './WarningPresentation';
 import { createUsers } from '../store/User/UserSlicer';
 import useFormValidation from '../utils/useForm';
 import fetchData from '../utils/fetchData';
+import { getCity, getEmail, getFirstName, getLastName, getPlz, getStreetNo, getStreetName, getUserImg, getState } from '../Selectors/userSelectors';
 import Buttons from './Buttons';
-import '../style.css'
 import Img from '../assets/placeholder.jpg'
+import '../style.css'
 
 const UserCard = () => {
 
@@ -29,7 +30,7 @@ const UserCard = () => {
     const [fetching, setFetching] = useState(false);
 
     const [userInfoState, seUserInfoState] = useState({
-        firstName: '',
+        firstName: ''.trim(),
         lastName: '',
         email: '',
         city: '',
@@ -43,7 +44,7 @@ const UserCard = () => {
 
     useEffect(() => {
         seUserInfoState({
-            firstName: userFirstName.trim(),
+            firstName: userFirstName,
             lastName: userLastName,
             email: userEmail,
             city: userCity,
@@ -55,7 +56,6 @@ const UserCard = () => {
     }, [userFirstName, userLastName, userEmail, userCity, userStreetName, userStreetNumber, userPlz, userImage]
     )
 
-    //! Cancel changed input value
     const cancelEidtingHandler = (): void => {
         setIsReadOnly(true)
         seUserInfoState({
@@ -83,11 +83,17 @@ const UserCard = () => {
     }
 
     const createUserHandler = (): void => { dispatch(createUsers({ ...userInfoState })) }
-    console.log('### WHOLE STATE', statex);
     
+    
+    if(fetching) {
+        return ( <div className="wrapper"> <LoadingSpinner/> </div> )
+     }
+
     return (
 
         <div className="wrapper">
+
+            {!inputsValidation.formValid && isGenerated  ? <WarningPresentation /> : ''} 
 
             <figure className="picture">
                 <img src={userInfoState.img ? userInfoState.img: Img } alt={userInfoState.img}/>
@@ -104,8 +110,7 @@ const UserCard = () => {
                         value={userInfoState.firstName}
                         onChange={handleChange}
                         disabled={isReadOnly}
-                        pattern="^[\s\d\p{L}]+"
-                        inputMode='text'
+                        pattern='^[\p{L}\s-][^]+$'
                         required
                     />
 
@@ -117,8 +122,7 @@ const UserCard = () => {
                         value={userInfoState.lastName}
                         onChange={handleChange}
                         disabled={isReadOnly}
-                        pattern="^[\s\d\p{L}]+"
-                        inputMode='text'
+                        pattern='^[\p{L}\s][^]+$'
                         required
                     />
                 </div>
@@ -145,7 +149,7 @@ const UserCard = () => {
                         value={userInfoState.streetName}
                         onChange={handleChange}
                         disabled={isReadOnly}
-                        pattern="^[\s\d\p{L}]+"
+                        pattern='^[\p{L}\s-][^]+$'
                         inputMode='text'
                         required
                     />
@@ -186,13 +190,11 @@ const UserCard = () => {
                         value={userInfoState.city}
                         onChange={handleChange}
                         disabled={isReadOnly}
-                        pattern="^[\s\d\p{L}]+"
+                        pattern='^[\p{L}\s-][^]+$'
                         inputMode='text'
                         required
                     />
                 </div>
-
-                {!inputsValidation.formValid && isGenerated ? <span>Something Wrong</span> : ''}
 
                 <Buttons
                     isGenerated={isGenerated}

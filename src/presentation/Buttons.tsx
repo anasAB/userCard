@@ -25,13 +25,13 @@ const Buttons = (props: IButtons) => {
             :
             isReadOnly ?
                 <div className='row'>
-                        <Button className='active grid-6-12'  onClick={changeEditorStatusTHandler}>Bearbeiten</Button>
-                        <Button className='active grid-6-12' onClick={createUser}>User anlegen</Button>
+                    <Button className='active grid-6-12' onClick={changeEditorStatusTHandler}>Bearbeiten</Button>
+                    <Button className='active grid-6-12' onClick={createUser}>User anlegen</Button>
                 </div>
                 :
                 <div className='row' >
-                        <Button className="active outline grid-6-12" onClick={cancelEidtingHandler}>Abbrechen</Button>
-                        <Button className={`${formValidation ? 'active' : 'inactive'} outline grid-6-12`} type="submit" disabled={!formValidation} >Speichen</Button>
+                    <Button className="active outline grid-6-12" onClick={cancelEidtingHandler}>Abbrechen</Button>
+                    <Button className="active outline grid-6-12" type="submit" disabled={!formValidation} >Speichen</Button>
                 </div>
     )
 }

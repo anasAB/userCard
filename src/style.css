@@ -137,17 +137,6 @@ button {
 	width: 100%;
 }
 
-button.inactive {
-	background: #B9B9B9;
-	color: #ffffff;
-}
-
-button.inactive.outline {
-	background: transparent;
-	border: 2px solid #B9B9B9;
-	color: #B9B9B9;
-}
-
 button.active {
 	background: #10AC84;
 	color: #ffffff;
@@ -161,11 +150,6 @@ button.active.outline {
 	background: transparent;
 	border: 2px solid #10AC84;
 	color: #10AC84;
-}
-
-button.active.outline:hover {
-	border: 2px solid #1DD1A1;
-	color: #1DD1A1;
 }
 
 .grid-3-12 {
@@ -190,4 +174,42 @@ button.active.outline:hover {
 
 .grid-12-12 {
 	width: 100%;
+}
+
+.warningMessage{
+	top: 0px;
+	left: 644px;
+	width: 632px;
+	height: 36px;
+	text-align: center;
+	background: #FF0018 0% 0% no-repeat padding-box;
+	box-shadow: 0px 0px 48px #22222214;
+	border-radius: 0px 0px 30px 30px;
+	animation: opacityDisplay 1s ease-in-out;
+}
+
+@keyframes opacityDisplay {
+	0% {
+	  opacity: 0;
+	}
+
+	75% {
+		opacity: 0.5;
+	}
+	100% {
+		opacity: 1;
+	}
+  }
+
+
+.warningMessage span{
+	top: 39px;
+	left: 728px;
+	width: 377px;
+	height: 19px;
+	text-align: left;
+	font: normal normal 600 16px/19px Public Sans;
+	letter-spacing: 0px;
+	color: #FFFFFF;
+	opacity: 1;
 }

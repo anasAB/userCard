@@ -4,7 +4,7 @@ interface IState {
     users: IUser[]
 }
 
-export const getFirstName = (state: IState): any => state.users[0]?.firstName ? state.users[0]?.firstName : ''
+export const getFirstName = (state: IState): string => state.users[0]?.firstName ? state.users[0]?.firstName : ''
 export const getLastName = (state: IState): string => state.users[0]?.lastName ? state.users[0]?.lastName : ''
 export const getEmail = (state: IState): string => state.users[0]?.email ? state.users[0]?.email: ''
 export const getStreetName = (state: IState): string => state.users[0]?.streetName ? state.users[0].streetName : ''

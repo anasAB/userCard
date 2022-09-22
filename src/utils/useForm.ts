@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 const useForm = (props: IForm) => {
 
     const { inputsFields, seUserInfoState, setIsReadOnly } = props
+
     const [formValid, setFormValid] = useState(false);
     const [firstNameValid, setfirstNameValid] = useState(false);
     const [lastNameValid, setLastNameValid] = useState(false);
@@ -51,10 +52,10 @@ const useForm = (props: IForm) => {
             streetNum: inputsFields.streetNum,
             plz: inputsFields.plz,
         }))
-        setIsReadOnly(true)        
+        setIsReadOnly(true)   
     }
 
-    //! inputs Validation
+
     const validate = (state: IUser) => {
         if (state.firstName.trim() !== '') { setfirstNameValid(true) } else { setfirstNameValid(false) }
         if (state.lastName.trim() !== '') { setLastNameValid(true) } else { setLastNameValid(false) }
@@ -84,7 +85,7 @@ const useForm = (props: IForm) => {
     return {
         inputsValidation,
         handleChange,
-        handleSubmit
+        handleSubmit,
     }
 }
 

@@ -8,9 +8,7 @@ export const userSlice = createSlice({
     initialState: initialUserState,
     reducers: {
         setUserState: (state: Users, action: { payload: IResult }) => {
-            console.log('### Set User Info ACTION');
-
-            const payload = action.payload
+            const {payload} = action
 
             state.push({
                 firstName: payload.name.first,
