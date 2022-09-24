@@ -1,15 +1,8 @@
 import Button from 'react-bootstrap/Button';
+import { IButtons } from '../IState';
 
 
-export interface IButtons {
-    isGenerated: boolean
-    isReadOnly: boolean
-    formValidation: boolean
-    generateUser: () => void
-    createUser: () => void
-    cancelEidtingHandler: () => void
-    setIsReadOnly: (status: boolean) => void
-}
+
 
 
 const Buttons = (props: IButtons) => {

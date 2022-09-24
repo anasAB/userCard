@@ -92,3 +92,13 @@ export interface IForm {
     seUserInfoState: (inputsFields: IUser) => void,
     setIsReadOnly: (readOnly:boolean) => void,
 }
+
+export interface IButtons {
+    isGenerated: boolean
+    isReadOnly: boolean
+    formValidation: boolean
+    generateUser: () => void
+    createUser: () => void
+    cancelEidtingHandler: () => void
+    setIsReadOnly: (status: boolean) => void
+}

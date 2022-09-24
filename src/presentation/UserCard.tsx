@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import LoadingSpinner from '../Loader/LoadingSpinner';
 import WarningPresentation from './WarningPresentation';
 import { createUsers } from '../store/User/UserSlicer';
-import useFormValidation from '../utils/useForm';
+import useForm from '../utils/useForm';
 import fetchData from '../utils/fetchData';
 import { getCity, getEmail, getFirstName, getLastName, getPlz, getStreetNo, getStreetName, getUserImg, getState } from '../Selectors/userSelectors';
 import Buttons from './Buttons';
@@ -22,15 +22,16 @@ const UserCard = () => {
     const userPlz = useSelector(getPlz)
     const userImage = useSelector(getUserImg)
 
-    const statex = useSelector(getState)
-
+    const wholeState = useSelector(getState)
+    console.log('###wholeState',wholeState);
+    
 
     const [isGenerated, setIsGenerated] = useState(false);
     const [isReadOnly, setIsReadOnly] = useState(true);
     const [fetching, setFetching] = useState(false);
 
     const [userInfoState, seUserInfoState] = useState({
-        firstName: ''.trim(),
+        firstName: '',
         lastName: '',
         email: '',
         city: '',
@@ -39,8 +40,8 @@ const UserCard = () => {
         plz: 0,
         img: '',
     })
-
-    const { inputsValidation, handleChange, handleSubmit } = useFormValidation({ 'inputsFields': userInfoState, seUserInfoState, setIsReadOnly });
+    
+    const { inputsValidation, handleChange, handleSubmit } = useForm({ 'inputsFields': userInfoState, seUserInfoState, setIsReadOnly });
 
     useEffect(() => {
         seUserInfoState({
@@ -89,6 +90,7 @@ const UserCard = () => {
         return ( <div className="wrapper"> <LoadingSpinner/> </div> )
      }
 
+
     return (
 
         <div className="wrapper">
@@ -96,6 +98,7 @@ const UserCard = () => {
             {!inputsValidation.formValid && isGenerated  ? <WarningPresentation /> : ''} 
 
             <figure className="picture">
+                
                 <img src={userInfoState.img ? userInfoState.img: Img } alt={userInfoState.img}/>
             </figure>
 

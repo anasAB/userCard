@@ -16,7 +16,7 @@ const useForm = (props: IForm) => {
     const [plzValid, setPlzValid] = useState(false);
     const [cityNameValid, setCityNameValid] = useState(false);
     const [emailValid, setEmailValid] = useState(false);
-    
+
     const dispatch = useDispatch()
 
     const formValidStatus = firstNameValid && lastNameValid &&
@@ -35,6 +35,7 @@ const useForm = (props: IForm) => {
         event.persist();
         const name = event.target.name;
         const val = event.target.value;
+         localStorage.setItem(name, val)
         seUserInfoState({
             ...inputsFields,
             [name]: val,
@@ -52,11 +53,12 @@ const useForm = (props: IForm) => {
             streetNum: inputsFields.streetNum,
             plz: inputsFields.plz,
         }))
-        setIsReadOnly(true)   
+        setIsReadOnly(true)
+         localStorage.clear();
     }
 
 
-    const validate = (state: IUser) => {
+    const validate = (state: IUser) : void  => {
         if (state.firstName.trim() !== '') { setfirstNameValid(true) } else { setfirstNameValid(false) }
         if (state.lastName.trim() !== '') { setLastNameValid(true) } else { setLastNameValid(false) }
         if (state.streetName.trim() !== '') { setStreetNameValid(true) } else { setStreetNameValid(false) }

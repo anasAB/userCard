@@ -208,7 +208,7 @@ button.active.outline {
 	width: 377px;
 	height: 19px;
 	text-align: left;
-	font: normal normal 600 16px/19px Public Sans;
+	font: normal normal 600 16px 19px Public Sans;
 	letter-spacing: 0px;
 	color: #FFFFFF;
 	opacity: 1;
